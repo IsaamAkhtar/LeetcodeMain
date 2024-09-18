@@ -1,0 +1,68 @@
+Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+Return the sum of the three integers.
+
+You may assume that each input would have exactly one solution.
+
+ 
+
+Example 1:
+
+Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+Example 2:
+
+Input: nums = [0,0,0], target = 1
+Output: 0
+Explanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).
+
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        
+        #Sort the array to be able to use two pointers:
+        nums.sort()
+        
+        #Save the length of the array:
+        length = len(nums)
+
+        #Initialize the closest sum with an arbitary large number:
+        closestSum = float('inf')
+
+        #Iterate through the array, stopping before the last the last two values as 
+        #we need three values, which will be aquired later using the right and left pointers:
+        for i in range(length - 2):
+
+            #Initialise the left and right pointers. The left should start at the index after
+            #the one currently being iterated over, and the right should start 
+            #from the right most value in the array:
+            left, right = i + 1, length - 1
+
+            #We continue each iteration until the two pointers meet in the middle:
+            while left < right:
+                
+                #Calculate the sum of the current three numbers, (i, left, right):
+                currentSum = nums[i] + nums[left] + nums[right]
+
+                #If the current sum is closer to the target then our previously saved closest
+                #sum, we update the value. Note that we also use ("abs") to get the absolute 
+                #value, because we are only concerned with the absolute distance from
+                #our target.
+                if abs(currentSum - target) < abs(closestSum - target):
+                    closestSum = currentSum
+
+                #If the current sum is greater then the target, we move the right pointer left.
+                if currentSum > target:
+                    right -= 1
+                
+                #If the current sum is smaller then the target, we move the left pointer right.
+                elif currentSum < target:
+                    left += 1
+                
+                #Otherwise, the current sum is equal to the target, and we return it.
+                else:
+                    return currentSum
+            
+        #Return the closestSum:
+        return closestSum
