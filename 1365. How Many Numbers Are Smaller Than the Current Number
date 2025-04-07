@@ -19,3 +19,23 @@ Return the answer in an array.
                         counter += 1
             answer.append(counter)
         return answer
+
+Alternate solution:
+class Solution(object):
+    def smallerNumbersThanCurrent(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        # Sort the array and map each number to its first occurrence index
+        sorted_nums = sorted(nums)
+        num_to_smaller_count = {}
+        
+        for i, num in enumerate(sorted_nums):
+            # Only store the first occurrence (i.e., the number of smaller elements before it)
+            if num not in num_to_smaller_count:
+                num_to_smaller_count[num] = i
+
+        # Build the answer using the map
+        return [num_to_smaller_count[num] for num in nums]
+
